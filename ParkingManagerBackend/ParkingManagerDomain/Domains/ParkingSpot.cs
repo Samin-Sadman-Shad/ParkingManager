@@ -21,7 +21,6 @@ namespace ParkingManagerDomain.Domains
         public Guid GarageId { get; set; }
 
         [ForeignKey(nameof(GarageId))]
-        [Required]
         public Garage Garage { get; set; }
         public Guid? OccupiedByVehicleId { get; set; }
 
@@ -29,8 +28,11 @@ namespace ParkingManagerDomain.Domains
         public Vehicle? OccupiedBy { get; set; }
         public DateTimeOffset? OccupiedAt { get; set; }
 
-        public DateTimeOffset WillAvailableAt { get; set; } = DateTimeOffset.Now;
+        public DateTimeOffset WillAvailableAt { get; set; } = DateTimeOffset.UtcNow;
 
         public DateTimeOffset CreatedAt { get; set; }
+
+        [Timestamp]
+        public byte[]? RowVersion { get; set; } //handle race case optimistic way
     }
 }
