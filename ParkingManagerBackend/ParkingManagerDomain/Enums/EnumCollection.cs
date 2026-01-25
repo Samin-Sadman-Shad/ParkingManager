@@ -50,4 +50,14 @@ namespace ParkingManagerDomain.Enums
         Premium,
         LowCost
     }
+
+    public enum BookingStatus
+    {
+        Reserved,       // Booked but not yet checked in
+        Active,         // Currently parked
+        Completed,      // Successfully finished
+        Cancelled,      // Cancelled by user or system
+        NoShow,         // User didn't show up
+        Expired         // Booking time passed without check-in
+    }
 }
