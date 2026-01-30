@@ -22,6 +22,14 @@ namespace ParkingManagerDomain.Enums
         GPay
     }
 
+    public enum PaymentStatus
+    {
+        Pending,
+        Completed,
+        Failed,
+        Refunded
+    }
+
     public enum EnlistedVehicles
     {
         Sedan,

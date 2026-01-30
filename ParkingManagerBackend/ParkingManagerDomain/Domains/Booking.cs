@@ -20,13 +20,13 @@ namespace ParkingManagerDomain.Domains
         public ParkingSpot? ParkingSpot { get; set; }
 
         [Required]
-        public Guid UserId { get; set; }
+        public Guid UserId { get; set; } //by whom
 
         [ForeignKey(nameof(UserId))]
         public User? User { get; set; }
 
         [Required]
-        public Guid VehicleId { get; set; }
+        public Guid VehicleId { get; set; } //for which vehicle
 
         [ForeignKey(nameof(VehicleId))]
         public Vehicle? Vehicle { get; set; }
@@ -37,6 +37,14 @@ namespace ParkingManagerDomain.Domains
 
         [Required]
         public DateTimeOffset EndTime { get; set; }
+
+        public TimeSpan Duration
+        {
+            get
+            {
+                return EndTime - StartTime;
+            }
+        }
 
         [Required]
         public Guid GarageId { get; set; }
