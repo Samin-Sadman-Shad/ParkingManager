@@ -14,7 +14,7 @@ namespace ParkingManagerDomain.Domains
         public Guid Id { get; set; }
 
         [Required]
-        public Guid ParkingSpotId { get; set; } //which 
+        public Guid ParkingSpotId { get; set; } //which parking spot to book 
 
         [ForeignKey(nameof(ParkingSpotId))]
         public ParkingSpot? ParkingSpot { get; set; }

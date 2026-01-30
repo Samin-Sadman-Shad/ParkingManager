@@ -8,12 +8,19 @@ using System.Threading.Tasks;
 
 namespace ParkingManagerDomain.Domains
 {
+    /// <summary>
+    /// Represents a physical parking spot in a garage.
+    /// Occupancy and availability are tracked via Booking entity.
+    /// </summary>
     public class ParkingSpot
     {
         [Key]
         public Guid Id { get; set; }
+
         [Required]
-        public string SpotId { get; set; }
+        [MaxLength(20)]
+        public string SpotId { get; set; } = string.Empty;
+
         [Required]
         public int FloorNo { get; set; }
 
@@ -21,18 +28,14 @@ namespace ParkingManagerDomain.Domains
         public Guid GarageId { get; set; }
 
         [ForeignKey(nameof(GarageId))]
-        public Garage Garage { get; set; }
-        public Guid? OccupiedByVehicleId { get; set; }
+        public Garage? Garage { get; set; }
 
-        [ForeignKey(nameof(OccupiedByVehicleId))]
-        public Vehicle? OccupiedBy { get; set; }
-        public DateTimeOffset? OccupiedAt { get; set; }
+        // Navigation property for bookings
+        public ICollection<Booking>? Bookings { get; set; }
 
-        public DateTimeOffset WillAvailableAt { get; set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 
-        public DateTimeOffset CreatedAt { get; set; }
-
-        [Timestamp]
-        public byte[]? RowVersion { get; set; } //handle race case optimistic way
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }
+
