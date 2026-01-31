@@ -46,22 +46,18 @@ namespace ParkingManagerDomain.Domains
             }
         }
 
-        [Required]
-        public Guid GarageId { get; set; }
-        public Garage? Garage { get; set; }
-
-        // Status tracking
+        // Booking status (reservation level)
         [Required]
         public BookingStatus Status { get; set; } = BookingStatus.Reserved;
 
-        // Actual usage tracking
-        public DateTimeOffset? ActualCheckIn { get; set; }
-        public DateTimeOffset? ActualCheckOut { get; set; }
-
-        // Payment tracking
+        // Pricing
         public decimal EstimatedPrice { get; set; }
-        public decimal? FinalPrice { get; set; }
-        public bool IsPaid { get; set; }
+
+        // 1:1 relationship to parking session
+        public ParkingSession? Session { get; set; }
+
+        // Status tracking
+
 
         // Audit fields
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;

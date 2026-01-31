@@ -68,4 +68,12 @@ namespace ParkingManagerDomain.Enums
         NoShow,         // User didn't show up
         Expired         // Booking time passed without check-in
     }
+
+    public enum SessionStatus
+    {
+        CheckedIn,      // Vehicle entered, currently parked
+        CheckedOut,     // Vehicle exited, session completed
+        Overstayed,     // Exceeded booked EndTime
+        Abandoned       // Vehicle not retrieved after extended period
+    }
 }
