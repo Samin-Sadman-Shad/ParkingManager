@@ -50,7 +50,8 @@ namespace ParkingManagerDomain.Domains
         public District? District { get; set; }
 
         // Navigation property
-        public ICollection<Location>? Locations { get; set; }
+        public ICollection<Street>? Streets { get; set; }
+        // Note: No Locations navigation property - query locations by StreetId instead
 
         public bool IsActive { get; set; } = true;
 
@@ -58,12 +59,26 @@ namespace ParkingManagerDomain.Domains
     }
 
     /// <summary>
-    /// Represents a specific location/address
+    /// Represents a street/road within a thana.
+    /// Supports hierarchical streets via composite pattern.
     /// </summary>
-    public class Location
+    public class Street
     {
         [Key]
         public Guid Id { get; set; }
+
+        [Required]
+        [MaxLength(200)]
+        public string Name { get; set; } = string.Empty;
+
+        [MaxLength(200)]
+        public string? NameBangla { get; set; }
+
+        [MaxLength(50)]
+        public string? BlockNumber { get; set; }
+
+        [MaxLength(20)]
+        public string? PostalCode { get; set; }
 
         [Required]
         public Guid ThanaId { get; set; }
@@ -71,18 +86,67 @@ namespace ParkingManagerDomain.Domains
         [ForeignKey(nameof(ThanaId))]
         public Thana? Thana { get; set; }
 
-        [MaxLength(500)]
-        public string? FullAddress { get; set; }
+        // Composite pattern: Street can contain child streets (intersections/connected streets)
+        public Guid? ParentStreetId { get; set; }
 
-        [MaxLength(20)]
-        public string? PostalCode { get; set; }
+        [ForeignKey(nameof(ParentStreetId))]
+        public Street? ParentStreet { get; set; }
 
-        // GPS coordinates (optional)
-        public double? Latitude { get; set; }
-        public double? Longitude { get; set; }
+        // Navigation properties
+        public ICollection<Street>? ChildStreets { get; set; }
+        // Note: No Locations navigation property to avoid loading all vehicle positions
+
+        public bool IsActive { get; set; } = true;
+
+        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+    }
+
+    /// <summary>
+    /// Base class for location with GPS coordinates on a street
+    /// </summary>
+    public abstract class Location
+    {
+        [Key]
+        public Guid Id { get; set; }
+
+        [Required]
+        public Guid StreetId { get; set; }
+
+        [ForeignKey(nameof(StreetId))]
+        public Street? Street { get; set; }
+
+        [Required]
+        public double Latitude { get; set; }
+
+        [Required]
+        public double Longitude { get; set; }
 
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 
-        public int GeoFenceRadiusMeters { get; set; } = 50; // Default to 50 meters 
+        public DateTimeOffset? UpdatedAt { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a garage location on a street
+    /// </summary>
+    public class GarageLocation : Location
+    {
+        [Required]
+        public Guid GarageId { get; set; }
+
+        [ForeignKey(nameof(GarageId))]
+        public Garage? Garage { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a vehicle's current position on a street
+    /// </summary>
+    public class VehicleLocation : Location
+    {
+        [Required]
+        public Guid VehicleId { get; set; }
+
+        [ForeignKey(nameof(VehicleId))]
+        public Vehicle? Vehicle { get; set; }
     }
 }
