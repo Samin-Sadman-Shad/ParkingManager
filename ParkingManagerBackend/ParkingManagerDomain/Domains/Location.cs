@@ -86,12 +86,6 @@ namespace ParkingManagerDomain.Domains
         [ForeignKey(nameof(ThanaId))]
         public Thana? Thana { get; set; }
 
-        // Composite pattern: Street can contain child streets (intersections/connected streets)
-        public Guid? ParentStreetId { get; set; }
-
-        [ForeignKey(nameof(ParentStreetId))]
-        public Street? ParentStreet { get; set; }
-
         // Navigation properties
         public ICollection<Street>? ChildStreets { get; set; }
         // Note: No Locations navigation property to avoid loading all vehicle positions
