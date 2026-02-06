@@ -31,5 +31,13 @@ namespace ParkingManagerDomain.Domains
 
         [ForeignKey(nameof(UserId))]
         public User? OwnedBy { get; set; }
+
+        //bookings for this vehicle -
+        //can be used to query all past and upcoming bookings for this vehicle,
+        //but not loaded by default to avoid loading all booking history when querying vehicles
+        public ICollection<Booking>? Bookings { get; set; }
+
+        //do not load by default
+        public VehicleLocation? CurrentLocation { get; set; }
     }
 }

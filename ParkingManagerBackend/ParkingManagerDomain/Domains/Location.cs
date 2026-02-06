@@ -88,7 +88,10 @@ namespace ParkingManagerDomain.Domains
 
         // Navigation properties
         public ICollection<Street>? ChildStreets { get; set; }
+        
         // Note: No Locations navigation property to avoid loading all vehicle positions
+
+        public ICollection<GarageLocation>? GarageLocations { get; set; }
 
         public bool IsActive { get; set; } = true;
 

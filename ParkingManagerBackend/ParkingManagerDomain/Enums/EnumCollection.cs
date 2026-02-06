@@ -76,4 +76,12 @@ namespace ParkingManagerDomain.Enums
         Overstayed,     // Exceeded booked EndTime
         Abandoned       // Vehicle not retrieved after extended period
     }
+
+    public enum GarageStatus
+    {
+        Open,
+        Closed,
+        Full,
+        Maintenance
+    }
 }

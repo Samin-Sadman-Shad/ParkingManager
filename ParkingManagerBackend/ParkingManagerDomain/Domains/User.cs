@@ -24,5 +24,12 @@ namespace ParkingManagerDomain.Domains
 
         // Navigation property for ratings given by this user
         public ICollection<Rating>? GivenRatings { get; set; }
+
+        public bool IsActive { get; set; } = true;
+
+        public Guid RoleId { get; set; }
+
+        [ForeignKey(nameof(RoleId))]
+        public Role? Role { get; set; }
     }
 }
