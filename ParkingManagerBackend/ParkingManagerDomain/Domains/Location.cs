@@ -133,6 +133,8 @@ namespace ParkingManagerDomain.Domains
 
         [ForeignKey(nameof(GarageId))]
         public Garage? Garage { get; set; }
+
+        public Street Street { get; set; } 
     }
 
     /// <summary>

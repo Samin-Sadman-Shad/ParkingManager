@@ -21,6 +21,15 @@ namespace ParkingManagerApplication.Common.Contracts.Persistence
 
         Task<IEnumerable<Booking>> GetByVehicleIdAsync(Guid VehicleId);
 
-        Task<IEnumerable<Booking>> FilterByStatusAsync(BookingStatus status);
+        Task<IEnumerable<Booking>> FilterByStatusAsync(BookingStatus status, Guid GarageId);
+
+        Task<IEnumerable<Booking>> FilterByPaymentStatusAsync(PaymentStatus paymentStatus);
+
+        Task<IEnumerable<Booking>> FilterByTimeRangeAsync(
+            DateTimeOffset startTime, 
+            DateTimeOffset endTime, 
+            Guid GarageId);
+
+        
     }
 }
